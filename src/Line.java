@@ -68,6 +68,7 @@ public class Line implements GLEventListener{
 	   double y1=randNumb();
 	   double x2=randNumb();
 	   double y2=randNumb();
+	   //Main algorithm's result
 	   String result=sutherlandClipping(xmin,xmax,ymin,ymax,x1,y1,x2,y2);
 	   if(result.equals("FA"))
 	   {
@@ -114,31 +115,35 @@ public class Line implements GLEventListener{
    
    public String sutherlandClipping(double xmin,double xmax,double ymin,double ymax,double x1,double y1,double x2,double y2)
    {
-	   String binary=""+above(ymax,ymin,y1)+""+below(ymax,ymin,y1)+""+right(xmax,xmin,x1)+""+left(xmax,xmin,x1);
+   	//making ABRL
+	   String binary=above(ymax,ymin,y1)+""+below(ymax,ymin,y1)+""+right(xmax,xmin,x1)+""+left(xmax,xmin,x1);
 	   int xr=Integer.parseInt(binary,2);
-	   binary=""+above(ymax,ymin,y2)+""+below(ymax,ymin,y2)+""+right(xmax,xmin,x2)+""+left(xmax,xmin,x2);
+	   
+	   binary=above(ymax,ymin,y2)+""+below(ymax,ymin,y2)+""+right(xmax,xmin,x2)+""+left(xmax,xmin,x2);
 	   int yr =Integer.parseInt(binary,2);
+	   //Bitwise comes real handy in this case
 	   int result=yr&xr;
 	   
 	   if(xr==0 && yr==0)
 	   {
 
 //		   System.out.println(x1+" "+y1+" "+x2+" "+y2);
-		   return "FA";
+		   return "FA";//Fully Accepted
 	   }
 	   else if(result==0)
 	   {
 		   
-		   return "PA";
+		   return "PA";//Partially Accepted
 	   }
 	   else
 	   {
-		   return "FR";
+		   return "FR";//Fully Rejected
 	   }
 	   
    }
    public int above(double ymax,double ymin,double y)
    {
+   	// taking max caz what if some people do it wrong :p like take ymax in ymin
 	   if(y > Math.max(ymax, ymin))
 	   {
 		   return 1;
@@ -169,7 +174,7 @@ public class Line implements GLEventListener{
 	   }
 	   return 0;
    }
-
+// SOme random numer generator
 public double randNumb(){
 	   Random rn = new Random();
 	   double max,min, num=0;
